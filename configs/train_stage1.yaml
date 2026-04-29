@@ -1,0 +1,77 @@
+model:
+  vision_encoder: "google/siglip-base-patch16-224"
+  vision_encoder_revision: "main"
+  freeze_vision_encoder: true
+  text_decoder: "gpt2"
+  text_decoder_revision: "main"
+  connector_type: "mlp"
+  connector_hidden_dim: 512
+  dropout: 0.1
+  max_length: 128
+
+stage1:
+  output_dir: "outputs/stage1"
+  run_name: "vlm-stage1"
+  freeze_components:
+    - "vision_encoder"
+  trainable_components:
+    - "connector"
+    - "text_decoder"
+  epochs: 3
+  batch_size: 8
+  gradient_accumulation_steps: 2
+  learning_rate: 5.0e-4
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  max_grad_norm: 1.0
+  mixed_precision: "fp16"
+  save_every: 500
+  eval_every: 500
+  seed: 42
+
+stage2:
+  output_dir: "outputs/stage2"
+  run_name: "vlm-stage2"
+  freeze_components:
+    - "vision_encoder"
+    - "connector"
+  trainable_components:
+    - "text_decoder"
+  epochs: 5
+  batch_size: 8
+  gradient_accumulation_steps: 2
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  max_grad_norm: 1.0
+  mixed_precision: "fp16"
+  save_every: 500
+  eval_every: 500
+  seed: 42
+
+data:
+  annotations: "data/annotations.json"
+  image_dir: "data/images"
+  image_size: 224
+  val_size: 0.1
+  num_workers: 4
+  transforms:
+    - "resize"
+    - "normalize"
+    - "random_horizontal_flip"
+  curation:
+    enabled: false
+    keep_top_fraction: 0.8
+    max_tokens_per_word: 2.5
+    min_similarity: null
+    clip_model: "openai/clip-vit-base-patch32"
+
+analysis:
+  outlier_loss_percentile: 95
+  grad_norm_percentile: 95
+  fp_iou_threshold: 0.3
+  min_confidence: 0.8
+
+logging:
+  log_every: 10
+  report_to: "tensorboard"

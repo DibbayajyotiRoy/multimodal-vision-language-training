@@ -1,0 +1,14 @@
+name: vlm-training
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - cuda-toolkit=12.1
+  - git
+  - git-lfs
+  - pip:
+    - -r requirements.txt

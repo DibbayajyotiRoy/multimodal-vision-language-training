@@ -1,0 +1,28 @@
+model:
+  vision_encoder: "google/siglip-base-patch16-224"
+  text_decoder: "gpt2"
+  connector_type: "mlp"
+  connector_hidden_dim: 512
+  max_length: 128
+
+data:
+  annotations: "data/annotations.json"
+  image_dir: "data/images"
+  image_size: 224
+  batch_size: 16
+  num_workers: 4
+  transforms:
+    - "resize"
+    - "normalize"
+
+metrics:
+  - "bleu"
+  - "rouge"
+  - "accuracy"
+
+analysis:
+  outlier_loss_percentile: 95
+  fp_iou_threshold: 0.3
+  min_confidence: 0.8
+
+output_dir: "outputs/eval"
