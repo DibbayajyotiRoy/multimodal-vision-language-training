@@ -1,0 +1,17 @@
+[
+  {
+    "image_id": "00001",
+    "image_path": "images/00001.jpg",
+    "caption": "A red double-decker bus crossing a bridge in London."
+  },
+  {
+    "image_id": "00002",
+    "image_path": "images/00002.jpg",
+    "caption": "A cat sleeping on a sunny windowsill."
+  },
+  {
+    "image_id": "00003",
+    "image_path": "images/00003.jpg",
+    "caption": "A group of hikers on a mountain trail at sunrise."
+  }
+]
