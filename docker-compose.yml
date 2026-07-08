@@ -1,0 +1,50 @@
+services:
+  train-stage1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vlm-training:latest
+    runtime: nvidia
+    environment:
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+      - HF_TOKEN=${HF_TOKEN}
+      - WANDB_API_KEY=${WANDB_API_KEY}
+      - WANDB_PROJECT=${WANDB_PROJECT:-multimodal-vlm-training}
+    volumes:
+      - ./outputs:/workspace/outputs
+      - ./data:/workspace/data
+      - ./cache:/workspace/cache
+    command: >
+      bash scripts/run_stage1.sh configs/train_stage1.yaml
+
+  train-stage2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vlm-training:latest
+    runtime: nvidia
+    environment:
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+      - HF_TOKEN=${HF_TOKEN}
+      - WANDB_API_KEY=${WANDB_API_KEY}
+    volumes:
+      - ./outputs:/workspace/outputs
+      - ./data:/workspace/data
+      - ./cache:/workspace/cache
+    command: >
+      bash scripts/run_stage2.sh configs/train_stage2.yaml
+
+  eval:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vlm-training:latest
+    runtime: nvidia
+    environment:
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+      - HF_TOKEN=${HF_TOKEN}
+    volumes:
+      - ./outputs:/workspace/outputs
+      - ./data:/workspace/data
+    command: >
+      bash scripts/run_eval.sh outputs/stage2/best_model.pt configs/eval_config.yaml
