@@ -219,6 +219,7 @@ def load_components(config: dict[str, Any], device: torch.device | None = None) 
     vision_dim = vision_encoder.config.hidden_size
     text_dim = text_decoder.config.hidden_size
 
+    connector: nn.Module
     connector_type = config.get("connector_type", "linear")
     if connector_type == "mlp":
         connector = MLPConnector(

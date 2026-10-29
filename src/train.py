@@ -16,7 +16,12 @@ from transformers import get_cosine_schedule_with_warmup
 from src.data import VisionLanguageDataset, build_transforms, load_annotations, split_annotations
 from src.data_curation import curate_annotations
 from src.logging_utils import get_logger, setup_logging
-from src.models import load_components, set_component_freezing, set_component_training
+from src.models import (
+    VisionLanguageModel,
+    load_components,
+    set_component_freezing,
+    set_component_training,
+)
 from src.utils import (
     count_trainable_parameters,
     get_device,
@@ -157,7 +162,7 @@ def evaluate(
 def train_stage(
     config: dict[str, Any],
     stage_key: str,
-    model: torch.nn.Module | None = None,
+    model: VisionLanguageModel | None = None,
     tokenizer: Any | None = None,
     resume_from: str | None = None,
 ) -> Path:
