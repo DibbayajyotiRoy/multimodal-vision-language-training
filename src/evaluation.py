@@ -34,7 +34,7 @@ def compute_bleu(predictions: list[str], references: list[list[str]]) -> dict[st
     except ImportError as exc:
         raise RuntimeError("sacrebleu is required for BLEU") from exc
 
-    score = corpus_bleu(predictions, list(zip(*references)))
+    score = corpus_bleu(predictions, list(zip(*references, strict=False)))
     return {"bleu": score.score}
 
 
@@ -55,7 +55,7 @@ def compute_rouge(predictions: list[str], references: list[list[str]]) -> dict[s
 
     scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=True)
     scores = []
-    for pred, refs in zip(predictions, references):
+    for pred, refs in zip(predictions, references, strict=False):
         best = max(scorer.score(pred, ref)["rougeL"].fmeasure for ref in refs)
         scores.append(best)
     return {"rougeL": sum(scores) / len(scores)}

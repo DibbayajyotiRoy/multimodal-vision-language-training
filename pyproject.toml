@@ -19,6 +19,8 @@ include = ["src*", "tests*"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+[tool.ruff.lint]
 select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM"]
 ignore = ["E501"]
 

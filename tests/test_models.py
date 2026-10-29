@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import torch
 
-from src.models import MLPConnector, VisionLanguageModel, set_component_freezing
+from src.models import MLPConnector, set_component_freezing
 from src.utils import count_trainable_parameters
 
 

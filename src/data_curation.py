@@ -168,7 +168,7 @@ def curate_annotations(
     threshold = np.percentile(combined, 100 * (1 - keep_top_fraction))
     curated = [
         {k: v for k, v in r.items() if k not in {"concision_score", "similarity_score"}}
-        for r, score in zip(records, combined)
+        for r, score in zip(records, combined, strict=False)
         if score <= threshold
     ]
 

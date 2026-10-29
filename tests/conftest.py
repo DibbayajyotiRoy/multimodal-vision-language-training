@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 import torch
 
-from src.models import LinearConnector, MLPConnector, VisionLanguageModel
+from src.models import LinearConnector, VisionLanguageModel
 
 
 @pytest.fixture
@@ -102,7 +102,7 @@ def sample_config(tmp_path) -> dict:
             "weight_decay": 0.0,
             "warmup_ratio": 0.0,
             "max_grad_norm": 1.0,
-            "mixed_precision": null,
+            "mixed_precision": None,
             "save_every": 1000,
             "eval_every": 1000,
             "seed": 42,
@@ -119,7 +119,7 @@ def sample_config(tmp_path) -> dict:
             "weight_decay": 0.0,
             "warmup_ratio": 0.0,
             "max_grad_norm": 1.0,
-            "mixed_precision": null,
+            "mixed_precision": None,
             "save_every": 1000,
             "eval_every": 1000,
             "seed": 42,
