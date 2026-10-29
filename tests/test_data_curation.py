@@ -12,7 +12,11 @@ class DummyTokenizer:
     """Minimal tokenizer for curation tests."""
 
     def encode(self, text: str, add_special_tokens: bool = True) -> list[int]:
-        return list(range(len(text.split())))
+        # Longer words produce more tokens so tokens-per-word grows with verbosity.
+        tokens: list[int] = []
+        for i, word in enumerate(text.split()):
+            tokens.extend([i] * max(1, len(word)))
+        return tokens
 
 
 def test_caption_concision_score() -> None:

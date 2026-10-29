@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 
 import numpy as np
+import torch
 from PIL import Image
 
 from src.data import (
@@ -29,7 +30,7 @@ class DummyTokenizer:
         pad_len = kwargs.get("max_length", 16) - len(ids)
         ids += [self.pad_token_id] * pad_len
         mask = [1 if i < len(text.split()) else 0 for i in range(kwargs.get("max_length", 16))]
-        return {"input_ids": ids, "attention_mask": mask}
+        return {"input_ids": torch.tensor(ids), "attention_mask": torch.tensor(mask)}
 
 
 def test_build_transforms() -> None:
